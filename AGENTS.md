@@ -2,7 +2,7 @@
 
 Public maker guide: https://humanbotty.jonbailey.xyz/
 
-Canonical tree: `~/humanbotty-web`. Ship: `.\deploy.ps1` (Pages `humanbotty-jonbailey`).
+Canonical tree: humanbotty-web. Ship: `.\deploy.ps1` (Pages `humanbotty-jonbailey`).
 
 Type: Fontshare Clash Display + Satoshi. Hits slug `humanbotty`. OG `?v=` on card changes.
 

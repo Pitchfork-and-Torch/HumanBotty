@@ -4,7 +4,7 @@
 
 [![Live](https://img.shields.io/badge/live-humanbotty.jonbailey.xyz-111111)](https://humanbotty.jonbailey.xyz/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.1.0-informational)](https://github.com/Pitchfork-and-Torch/HumanBotty/releases/latest)
+[![Version](https://img.shields.io/badge/version-1.1.0-informational)](VERSION)
 [![ROS 2](https://img.shields.io/badge/ROS%202-Humble%20%2F%20Jazzy-22314E)](software/)
 
 Sense-first hybrid: a humanoid head and arms on a practical wheeled base. Phase 1 is a **Sense Head** (vision, audio, IMU, pan-tilt, hardware e-stop). Full biped is optional and late.
@@ -29,7 +29,8 @@ Motor commands never bypass the supervisor. The ROS package is the software half
 ROS 2 package: [`software/`](software/). Guide: [software.html](https://humanbotty.jonbailey.xyz/software.html)
 
 ```
-python -m unittest discover -s software/test -v
+cd software
+python -m unittest discover -s test -v
 ```
 
 Humble or Jazzy. Pick one and stick.
@@ -45,17 +46,14 @@ ros2 launch humanbotty_sense_head sense_head.launch.py
 
 ## Site
 
-Static files live in `public/`. After copy edits:
+Static files live in `public/`. Advertised version is `1.1.0` (`VERSION`). After copy edits:
 
 ```powershell
 py -3 scripts/emit_pages.py
+py -3 scripts/check_version.py
 ```
 
-Deploy:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\deploy.ps1
-```
+Ship the public folder with `.\deploy.ps1`.
 
 ## Related
 
@@ -66,4 +64,4 @@ powershell -ExecutionPolicy Bypass -File .\deploy.ps1
 
 ## License
 
-MIT. Pitchfork-and-Torch. Issues on this repo only.
+MIT. Pitchfork-and-Torch.

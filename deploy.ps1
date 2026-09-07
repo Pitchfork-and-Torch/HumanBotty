@@ -1,17 +1,18 @@
-# Deploy humanbotty.jonbailey.xyz to Cloudflare Pages
+# Deploy humanbotty.jonbailey.xyz to Cloudflare Pages.
+# Requires CLOUDFLARE_API_TOKEN in the process or User environment.
+# Optional: CLOUDFLARE_ACCOUNT_ID to attach the custom domain if needed.
 $ErrorActionPreference = "Stop"
 $Root = Split-Path -Parent $MyInvocation.MyCommand.Path
 $Public = Join-Path $Root "public"
 $Project = "humanbotty-jonbailey"
 $Domain = "humanbotty.jonbailey.xyz"
-$TokenFile = Join-Path $env:USERPROFILE ".grok\secrets\cloudflare_full_token.txt"
 
 if (-not $env:CLOUDFLARE_API_TOKEN) {
   $userTok = [Environment]::GetEnvironmentVariable("CLOUDFLARE_API_TOKEN", "User")
   if ($userTok) { $env:CLOUDFLARE_API_TOKEN = $userTok }
-  elseif (Test-Path -LiteralPath $TokenFile) {
-    $env:CLOUDFLARE_API_TOKEN = (Get-Content -LiteralPath $TokenFile -Raw).Trim()
-  }
+}
+if (-not $env:CLOUDFLARE_API_TOKEN) {
+  Write-Error "Set CLOUDFLARE_API_TOKEN before running deploy.ps1"
 }
 
 if (-not (Test-Path (Join-Path $Public "index.html"))) { Write-Error "Missing public/index.html" }
@@ -30,15 +31,14 @@ try {
   npx --yes wrangler@4 pages deploy $Public --project-name=$Project --branch main --commit-dirty=true
   if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-  Write-Host "[DEPLOY] attach custom domain $Domain if needed"
-  py -3 -c @"
+  if (-not $env:CLOUDFLARE_ACCOUNT_ID) {
+    Write-Host "[DEPLOY] skip domain attach (CLOUDFLARE_ACCOUNT_ID unset)"
+  } else {
+    Write-Host "[DEPLOY] attach custom domain $Domain if needed"
+    py -3 -c @"
 import json, os, urllib.request
-from pathlib import Path
 tok = os.environ.get('CLOUDFLARE_API_TOKEN') or ''
-if not tok:
-    p = Path(os.environ['USERPROFILE']) / '.grok' / 'secrets' / 'cloudflare_full_token.txt'
-    tok = p.read_text(encoding='utf-8').strip()
-acct = '75c71da18eeb801b3408c812742d6590'
+acct = os.environ.get('CLOUDFLARE_ACCOUNT_ID') or ''
 headers = {'Authorization': 'Bearer ' + tok, 'Content-Type': 'application/json', 'User-Agent': 'humanbotty-deploy'}
 def api(method, url, body=None):
     data = None if body is None else json.dumps(body).encode()
@@ -65,6 +65,7 @@ if need:
     created = api('POST', f'https://api.cloudflare.com/client/v4/zones/{zid}/dns_records', {'type':'CNAME','name':'humanbotty','content':'humanbotty-jonbailey.pages.dev','proxied':True,'ttl':1})
     print('dns created' if created.get('success') else created.get('errors'))
 "@
+  }
 } finally {
   Pop-Location
 }

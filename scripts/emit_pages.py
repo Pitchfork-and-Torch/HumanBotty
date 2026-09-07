@@ -3,9 +3,10 @@ from __future__ import annotations
 
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1] / "public"
+REPO = Path(__file__).resolve().parents[1]
+ROOT = REPO / "public"
 CANON = "https://humanbotty.jonbailey.xyz"
-VERSION = "1.1.0"
+VERSION = (REPO / "VERSION").read_text(encoding="utf-8").strip()
 DESC_DEFAULT = (
     "HumanBotty is a public maker guide for building a physical body for an AI "
     "you already talk to. Sense-first, modular, sourceable parts."
@@ -146,7 +147,7 @@ PAGES["index.html"] = wrap(
         <div>
           <p class="kicker">PUBLIC MAKER GUIDE</p>
           <h1 class="display">A body for your AI.</h1>
-          <p class="lede">HumanBotty is a sense-first recipe for giving an agent you already talk to a physical body. Start with a head that can see, hear, and look at you. Arms and a wheeled base come later. Full biped is optional and late.</p>
+          <p class="lede">A sense-first recipe for giving an agent you already talk to a physical body. Start with a head that can see, hear, and look at you. Arms and a wheeled base come later. Full biped is optional and late.</p>
           <div class="cta-row">
             <a class="btn" href="/start.html">Start here</a>
             <a class="btn btn-ghost" href="/bom.html">Parts list</a>
@@ -182,8 +183,9 @@ PAGES["index.html"] = wrap(
 
       <div class="callout" style="margin-top:1.25rem">
         <strong>Software is open source.</strong>
-        MIT Sense Head nodes live at
-        <a href="https://github.com/Pitchfork-and-Torch/HumanBotty/tree/main/software">github.com/Pitchfork-and-Torch/HumanBotty</a>
+        MIT Sense Head nodes live in
+        <a href="https://github.com/Pitchfork-and-Torch/HumanBotty/tree/main/software">Pitchfork-and-Torch/HumanBotty</a>
+        under <code>software/</code>
         (<a href="/software.html">stack notes</a>).
       </div>
 
@@ -515,7 +517,7 @@ PAGES["software.html"] = wrap(
       </div>
       <div class="cta-row" style="margin:0 0 1.5rem">
         <a class="btn" href="https://github.com/Pitchfork-and-Torch/HumanBotty/tree/main/software">Open the Sense Head code</a>
-        <a class="btn btn-ghost" href="https://github.com/Pitchfork-and-Torch/HumanBotty">Repo</a>
+        <a class="btn btn-ghost" href="https://github.com/Pitchfork-and-Torch/HumanBotty">Source</a>
       </div>
       <section class="prose">
         <h2>Clone</h2>

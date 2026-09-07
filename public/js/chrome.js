@@ -1,5 +1,6 @@
 /** Shared header, sidebar, mobile drawer, footer. */
 (function () {
+  const VERSION = "1.1.0";
   const PAGE = document.body.getAttribute("data-page") || "home";
   const NAV = [
     {
@@ -80,7 +81,7 @@
             return `<a href="${item.href}"${cur}>${item.label}</a>`;
           }).join("")}
         </nav>
-        <span class="header-live">Live guide</span>
+        <span class="header-live" title="Guide version ${VERSION}">Live ${VERSION}</span>
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-drawer" aria-label="Open menu">
           <span></span>
         </button>
