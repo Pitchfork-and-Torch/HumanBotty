@@ -1,0 +1,34 @@
+{
+  "project": "HumanBotty",
+  "updated": "2026-09-04",
+  "entries": [
+    {
+      "id": "2026-07-25-reference-design",
+      "date": "2026-07-25",
+      "title": "Reference design locked",
+      "tags": ["decision", "body"],
+      "body": "Hybrid morphology: a humanoid head and arms on a practical wheeled base. Full biped is optional and late. The Sense Head is the first physical subsystem so the body can experience a room before it tries to walk."
+    },
+    {
+      "id": "2026-07-25-phase1-bom",
+      "date": "2026-07-25",
+      "title": "Phase 1 parts list published",
+      "tags": ["bom", "phase-1"],
+      "body": "Strong-tier Sense Head bill of materials, roughly $1,100 to $1,800 USD at mid-2026 maker prices. Jetson-class compute, depth camera, bus servos, hardware e-stop. Raspberry Pi 5 8GB is the documented fallback if Jetson is scarce."
+    },
+    {
+      "id": "2026-09-03-public-guide",
+      "date": "2026-09-03",
+      "title": "Public guide launched",
+      "tags": ["docs", "site"],
+      "body": "HumanBotty is a public maker guide at humanbotty.jonbailey.xyz. It is a recipe for building a body for an AI you already talk to. It is not a private build diary and it is not AetherOS."
+    },
+    {
+      "id": "2026-09-04-software-oss",
+      "date": "2026-09-04",
+      "title": "Sense Head software published",
+      "tags": ["software", "ros2"],
+      "body": "Phase 1 ROS 2 package humanbotty_sense_head is MIT at github.com/Pitchfork-and-Torch/HumanBotty under software/. Safety supervisor sits on the motor path. Look-at-face and look-at-sound are local policies. Tests run without ROS."
+    }
+  ]
+}
