@@ -27,6 +27,10 @@ def look_at_face(
     # (and LookMemory via tick_look) even when the box itself is fine.
     if not math.isfinite(gain):
         return pan, tilt
+    # Negative gain inverts look-at (face on the right pans right). Distinct
+    # from the non-finite gain hold above; zero is a no-op and stays allowed.
+    if gain < 0:
+        return pan, tilt
     x, y, w, h = box_xywh
     # Non-finite boxes (detector glitch) must not poison pan/tilt with NaN.
     if not all(math.isfinite(v) for v in (x, y, w, h)):
@@ -66,6 +70,9 @@ def look_at_sound(
         return pan, tilt
     # Distinct from non-finite yaw: finite yaw with NaN/Inf gain still yields Inf/NaN pan.
     if not math.isfinite(gain):
+        return pan, tilt
+    # Negative gain inverts sound slew (distinct from non-finite gain hold).
+    if gain < 0:
         return pan, tilt
     return pan + yaw_rad * gain, tilt
 

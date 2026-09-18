@@ -78,6 +78,21 @@ class PolicyTests(unittest.TestCase):
         self.assertEqual(idle_saccade(0.1, -0.2, rng=random.Random(0), max_step=-0.01), (0.1, -0.2))
 
 
+
+    def test_face_negative_gain_holds(self):
+        # Negative gain would invert look-at (right face pans right).
+        self.assertEqual(
+            look_at_face((0.7, 0.4, 0.2, 0.2), 0.1, -0.2, gain=-1.0),
+            (0.1, -0.2),
+        )
+        self.assertEqual(
+            look_at_face((0.7, 0.4, 0.2, 0.2), 0.1, -0.2, gain=-0.01),
+            (0.1, -0.2),
+        )
+
+    def test_sound_negative_gain_holds(self):
+        self.assertEqual(look_at_sound(0.4, 0.1, -0.2, gain=-0.5), (0.1, -0.2))
+
     def test_sound(self):
         pan, tilt = look_at_sound(0.4, 0.0, 0.1, gain=0.5)
         self.assertAlmostEqual(pan, 0.2)
