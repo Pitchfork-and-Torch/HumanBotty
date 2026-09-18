@@ -85,5 +85,25 @@ class LookMemoryTests(unittest.TestCase):
         self.assertIsNone(mem.face_box)
 
 
+
+    def test_remember_face_rejects_unusable_boxes(self):
+        """Invalid boxes must not occupy face TTL (would suppress idle)."""
+        from humanbotty_sense_head.policies import LookMemory, remember_face, tick_look
+
+        cases = [
+            (0.4, 0.4, 0.0, 0.2),  # non-positive w
+            (0.4, 0.4, 0.2, -0.1),  # non-positive h
+            (1.2, 0.4, 0.2, 0.2),  # wholly out of frame
+            (-0.05, 0.4, 0.08, 0.2),  # center outside unit square
+        ]
+        for box in cases:
+            mem = LookMemory(pan=0.0, tilt=0.0)
+            remember_face(mem, box, 0.0)
+            self.assertIsNone(mem.face_box, msg=f'stored {box}')
+            rng = random.Random(0)
+            pan, tilt = tick_look(mem, 0.0, rng=rng)
+            # Idle saccade moves off the origin with this seed.
+            self.assertTrue(abs(pan) > 1e-6 or abs(tilt) > 1e-6, msg=f'idle suppressed for {box}')
+
 if __name__ == "__main__":
     unittest.main()

@@ -105,7 +105,13 @@ def remember_face(
     box: tuple[float, ...] | list[float],
     now: float,
 ) -> None:
-    """Store a face box sample. Short/garbage payloads are ignored."""
+    """Store a face box sample. Short/garbage payloads are ignored.
+
+    Boxes that look_at_face would reject (non-positive size, wholly out of
+    frame, center outside the unit square) must not occupy FACE_TTL_SEC —
+    otherwise tick_look treats the hold as an active face and suppresses
+    idle saccades for the full TTL.
+    """
     if box is None or len(box) < 4:
         return
     try:
@@ -113,6 +119,15 @@ def remember_face(
     except (TypeError, ValueError):
         return
     if not all(math.isfinite(v) for v in sample):
+        return
+    x, y, w, h = sample
+    if w <= 0 or h <= 0:
+        return
+    if x >= 1.0 or y >= 1.0 or (x + w) <= 0.0 or (y + h) <= 0.0:
+        return
+    cx = x + w * 0.5
+    cy = y + h * 0.5
+    if not (0.0 <= cx <= 1.0 and 0.0 <= cy <= 1.0):
         return
     mem.face_box = sample
     mem.face_t = now
