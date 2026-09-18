@@ -6,3 +6,5 @@ safety_supervisor:
     tilt_max: 0.7
     vel_max: 0.8
     watchdog_sec: 0.4
+    # Opt-in: allow publishing estop=false to clear a software latch.
+    allow_clear_estop: false

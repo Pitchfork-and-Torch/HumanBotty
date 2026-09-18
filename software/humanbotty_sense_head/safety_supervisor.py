@@ -4,7 +4,13 @@ from __future__ import annotations
 
 import time
 
-from humanbotty_sense_head.safety import Limits, SupervisorState, gated_command, latch_estop
+from humanbotty_sense_head.safety import (
+    Limits,
+    SupervisorState,
+    clear_estop,
+    gated_command,
+    latch_estop,
+)
 
 
 def _limits_from_params(node) -> Limits:
@@ -15,6 +21,7 @@ def _limits_from_params(node) -> Limits:
         tilt_max=float(node.declare_parameter("tilt_max", 0.7).value),
         vel_max=float(node.declare_parameter("vel_max", 0.8).value),
         watchdog_sec=float(node.declare_parameter("watchdog_sec", 0.4).value),
+        allow_clear_estop=bool(node.declare_parameter("allow_clear_estop", False).value),
     )
 
 
@@ -39,9 +46,20 @@ def main(args=None) -> None:
             self.create_timer(0.02, self._tick)
 
         def _on_estop(self, msg: Bool) -> None:
-            latch_estop(self.state, bool(msg.data))
-            if msg.data:
+            pressed = bool(msg.data)
+            if pressed:
+                latch_estop(self.state, True)
                 self.get_logger().warn("e-stop latched")
+                return
+            # Release path: publish false AND allow_clear_estop in safety.yaml.
+            was_latched = self.state.estop_latched
+            clear_estop(self.state, self.limits.allow_clear_estop)
+            if was_latched and not self.state.estop_latched:
+                self.get_logger().info("e-stop cleared")
+            elif was_latched:
+                self.get_logger().warn(
+                    "e-stop release ignored; set allow_clear_estop true in safety.yaml"
+                )
 
         def _on_desired(self, msg: Float32MultiArray) -> None:
             if len(msg.data) >= 2:

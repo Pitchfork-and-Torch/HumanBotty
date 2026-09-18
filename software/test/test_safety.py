@@ -3,6 +3,7 @@ import unittest
 from humanbotty_sense_head.safety import (
     Limits,
     SupervisorState,
+    clear_estop,
     command_allowed,
     gated_command,
     latch_estop,
@@ -32,6 +33,15 @@ class SafetyTests(unittest.TestCase):
         self.assertTrue(ok)
         self.assertAlmostEqual(pan, 0.2)
         self.assertAlmostEqual(tilt, -0.1)
+
+    def test_estop_clear_requires_allow(self):
+        st = SupervisorState(last_ok_monotonic=10.0)
+        latch_estop(st, True)
+        clear_estop(st, False)
+        self.assertTrue(st.estop_latched)
+        clear_estop(st, True)
+        self.assertFalse(st.estop_latched)
+        self.assertTrue(command_allowed(st, 10.05, Limits(), True))
 
 
 if __name__ == "__main__":

@@ -13,6 +13,8 @@ class Limits:
     tilt_max: float = 0.7
     vel_max: float = 0.8
     watchdog_sec: float = 0.4
+    # Software clear of a latched e-stop is opt-in (see safety.yaml).
+    allow_clear_estop: bool = False
 
 
 @dataclass
