@@ -17,6 +17,12 @@ class PolicyTests(unittest.TestCase):
     def test_missing_box(self):
         self.assertEqual(look_at_face(None, 0.1, -0.2), (0.1, -0.2))
 
+    def test_face_non_finite_holds(self):
+        self.assertEqual(
+            look_at_face((float("nan"), 0.4, 0.2, 0.2), 0.1, -0.2),
+            (0.1, -0.2),
+        )
+
     def test_sound(self):
         pan, tilt = look_at_sound(0.4, 0.0, 0.1, gain=0.5)
         self.assertAlmostEqual(pan, 0.2)

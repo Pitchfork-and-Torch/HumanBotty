@@ -1,3 +1,4 @@
+import math
 import unittest
 
 from humanbotty_sense_head.safety import (
@@ -61,6 +62,16 @@ class SafetyTests(unittest.TestCase):
         pan, tilt, ok = gated_command(0.0, 0.0, st, 11.0, 0.02, Limits(watchdog_sec=0.4), True)
         self.assertTrue(ok)
         self.assertFalse(st.estop_latched)
+
+    def test_non_finite_desire_does_not_poison(self):
+        st = SupervisorState(last_ok_monotonic=1.0, last_pan=0.2, last_tilt=-0.1)
+        pan, tilt, ok = gated_command(
+            float("nan"), 0.0, st, 1.05, 0.05, Limits(), True
+        )
+        self.assertTrue(ok)
+        self.assertTrue(math.isfinite(pan) and math.isfinite(tilt))
+        self.assertAlmostEqual(st.last_pan, pan)
+        self.assertFalse(math.isnan(st.last_pan))
 
 if __name__ == "__main__":
     unittest.main()

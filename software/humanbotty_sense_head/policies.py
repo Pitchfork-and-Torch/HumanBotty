@@ -16,6 +16,9 @@ def look_at_face(
     if not box_xywh:
         return pan, tilt
     x, y, w, h = box_xywh
+    # Non-finite boxes (detector glitch) must not poison pan/tilt with NaN.
+    if not all(math.isfinite(v) for v in (x, y, w, h)):
+        return pan, tilt
     cx = x + w * 0.5
     cy = y + h * 0.5
     err_x = cx - 0.5

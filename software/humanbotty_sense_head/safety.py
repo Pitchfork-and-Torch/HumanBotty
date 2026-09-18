@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
 
 
@@ -103,6 +104,10 @@ def gated_command(
     if not watchdog_ok(state, now, limits):
         # Loop is alive again; re-arm so motion can resume.
         state.last_ok_monotonic = now
+    # Corrupt / NaN desires would otherwise stick in last_pan forever:
+    # clamp() comparisons with NaN are always false, so NaN passes through.
+    if not (math.isfinite(desired_pan) and math.isfinite(desired_tilt)):
+        desired_pan, desired_tilt = state.last_pan, state.last_tilt
     pan, tilt = clamp_pose(desired_pan, desired_tilt, limits)
     pan, tilt = rate_limit(pan, tilt, state, dt, limits)
     state.last_pan = pan
