@@ -16,6 +16,10 @@ def look_at_face(
     """box is normalized [x, y, w, h] in image coords, origin top-left."""
     if not box_xywh:
         return pan, tilt
+    # Bad ROS params / callers can pass NaN/Inf gain; that poisons pan/tilt
+    # (and LookMemory via tick_look) even when the box itself is fine.
+    if not math.isfinite(gain):
+        return pan, tilt
     x, y, w, h = box_xywh
     # Non-finite boxes (detector glitch) must not poison pan/tilt with NaN.
     if not all(math.isfinite(v) for v in (x, y, w, h)):
@@ -46,6 +50,9 @@ def look_at_sound(
     gain: float = 0.45,
 ) -> tuple[float, float]:
     if yaw_rad is None or not math.isfinite(yaw_rad):
+        return pan, tilt
+    # Distinct from non-finite yaw: finite yaw with NaN/Inf gain still yields Inf/NaN pan.
+    if not math.isfinite(gain):
         return pan, tilt
     return pan + yaw_rad * gain, tilt
 
