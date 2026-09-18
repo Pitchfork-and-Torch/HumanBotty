@@ -1,0 +1,40 @@
+{
+  "phases": [
+    {
+      "id": "0",
+      "name": "Simulation and digital twin",
+      "status": "active",
+      "summary": "URDF or MJCF head twin, joint names locked, think before torque."
+    },
+    {
+      "id": "1",
+      "name": "Sense Head",
+      "status": "active",
+      "summary": "Vision, audio, IMU, pan-tilt, e-stop, ROS 2, local agent bridge. Strong BOM."
+    },
+    {
+      "id": "2",
+      "name": "Arms, hands, tactile",
+      "status": "planned",
+      "summary": "Reach, grasp, and contact sensing after the Sense Head is reliable."
+    },
+    {
+      "id": "3",
+      "name": "Torso, power, mobility",
+      "status": "planned",
+      "summary": "Battery architecture and a practical wheeled base."
+    },
+    {
+      "id": "4",
+      "name": "Advanced locomotion",
+      "status": "parked",
+      "summary": "Optional biped, only after Phase 3 is solid."
+    },
+    {
+      "id": "5",
+      "name": "Full embodiment and learning",
+      "status": "planned",
+      "summary": "Closed-loop learning from real sensorimotor experience."
+    }
+  ]
+}

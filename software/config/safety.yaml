@@ -1,0 +1,10 @@
+safety_supervisor:
+  ros__parameters:
+    pan_min: -1.2
+    pan_max: 1.2
+    tilt_min: -0.6
+    tilt_max: 0.7
+    vel_max: 0.8
+    watchdog_sec: 0.4
+    # Opt-in: allow publishing estop=false to clear a software latch.
+    allow_clear_estop: false
