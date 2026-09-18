@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#0b1018" />
+  <meta name="robots" content="index,follow" />
+  <meta name="author" content="Pitchfork-and-Torch" />
+  <meta name="description" content="HumanBotty morphology: humanoid head and arms on a practical wheeled base. Modular, sense-first, maker-scale." />
+  <title>Body spec - HumanBotty</title>
+  <link rel="canonical" href="https://humanbotty.jonbailey.xyz/body.html" />
+  <link rel="alternate" type="text/plain" href="/llms.txt" />
+  <link rel="icon" href="/favicon.png" type="image/png" />
+  <link rel="icon" type="image/png" href="/icon-192.png" />
+  <link rel="apple-touch-icon" href="/icon-512.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="HumanBotty" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:url" content="https://humanbotty.jonbailey.xyz/body.html" />
+  <meta property="og:title" content="Body spec - HumanBotty" />
+  <meta property="og:description" content="HumanBotty morphology: humanoid head and arms on a practical wheeled base. Modular, sense-first, maker-scale." />
+  <meta property="og:image" content="https://humanbotty.jonbailey.xyz/og.jpg?v=1.1.0" />
+  <meta property="og:image:secure_url" content="https://humanbotty.jonbailey.xyz/og.jpg?v=1.1.0" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="HumanBotty: a maker-built robot sense-head on a workbench. A body for your AI." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@suddenlyjon" />
+  <meta name="twitter:creator" content="@suddenlyjon" />
+  <meta name="twitter:title" content="Body spec - HumanBotty" />
+  <meta name="twitter:description" content="HumanBotty morphology: humanoid head and arms on a practical wheeled base. Modular, sense-first, maker-scale." />
+  <meta name="twitter:image" content="https://humanbotty.jonbailey.xyz/og.jpg?v=1.1.0" />
+  <meta name="twitter:image:alt" content="HumanBotty sense-head on a workbench." />
+  <link rel="stylesheet" href="/fonts/fontshare/fonts.css" />
+  <link rel="stylesheet" href="/fonts/fontshare/tokens.css" />
+  <link rel="stylesheet" href="/css/site.css" />
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "HumanBotty",
+      "url": "https://humanbotty.jonbailey.xyz/body.html",
+      "description": "HumanBotty morphology: humanoid head and arms on a practical wheeled base. Modular, sense-first, maker-scale.",
+      "inLanguage": "en",
+      "isAccessibleForFree": true,
+      "image": "https://humanbotty.jonbailey.xyz/og.jpg?v=1.1.0",
+      "author": { "@type": "Person", "name": "Jon Bailey", "url": "https://jonbailey.xyz/" },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Pitchfork-and-Torch",
+        "url": "https://github.com/Pitchfork-and-Torch"
+      }
+    }
+  </script>
+
+</head>
+<body data-page="body">
+  <a class="skip" href="#main">Skip to content</a>
+  <div id="chrome-header"></div>
+  <div class="shell">
+    <nav class="side-nav" id="chrome-nav"></nav>
+    <main class="main" id="main">
+      <header class="page-header">
+        <p class="kicker">REFERENCE DESIGN</p>
+        <h1>Body specification</h1>
+        <p class="lede">A medium that lets mind touch world. Hybrid humanoid upper body on a practical wheeled base.</p>
+        <div class="meta-row">
+          <span class="chip active">Hybrid humanoid + base</span>
+          <span class="chip">Modular</span>
+          <span class="chip">Open-source biased</span>
+        </div>
+      </header>
+      <section class="prose">
+        <h2>What you are building</h2>
+        <p>A body that can <strong>experience the physical universe with you</strong>, not a museum biped that falls over for two years before it can look at a flower.</p>
+        <h2>Morphology</h2>
+      </section>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Segment</th><th>Choice</th><th>Why</th></tr></thead>
+          <tbody>
+            <tr><td>Head</td><td>Depth/stereo vision, mics, speaker, IMU, pan-tilt</td><td>Being there</td></tr>
+            <tr><td>Compute</td><td>Jetson-class on the robot; PC for sim and training</td><td>Local reflexes</td></tr>
+            <tr><td>Arms</td><td>Dual 6-7 DoF maker-scale</td><td>Reach and gesture</td></tr>
+            <tr><td>Hands</td><td>Simple gripper, then multi-finger + tactile</td><td>Touch compounds skill</td></tr>
+            <tr><td>Torso</td><td>Spine, battery bay, e-stop, thermal path</td><td>Serviceability</td></tr>
+            <tr><td>Base</td><td>Wheeled practical base (Phase 3)</td><td>Mobility without a balance tax</td></tr>
+            <tr><td>Legs</td><td>Optional late research module</td><td>Ambition preserved</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <section class="prose">
+        <h2>Rejected early paths</h2>
+        <ul>
+          <li>Full biped humanoid from day one</li>
+          <li>Giant Optimus-scale as a first home build</li>
+          <li>Wheels-only appliance with a tablet for a face</li>
+        </ul>
+        <h2>Design principles</h2>
+        <ol>
+          <li>Modular bus architecture (power + data contracts between modules)</li>
+          <li>Sense-rich before DoF-rich</li>
+          <li>Open-source first (LeRobot-era stacks, Feetech/Dynamixel, ROS 2, MuJoCo)</li>
+          <li>Human-scale interaction volume (about 1.2-1.6 m head height when mature)</li>
+          <li>Upgrade without scrap. Phase 1 head mounts on a Phase 3 torso</li>
+        </ol>
+        <h2>Horizons</h2>
+        <ul>
+          <li><strong>30-90 days:</strong> see, hear, speak, orient in your room</li>
+          <li><strong>3-9 months:</strong> reach, grasp, basic tactile, mobile presence</li>
+          <li><strong>1-3+ years:</strong> richer skins, optional biped, closed-loop learning</li>
+        </ul>
+      </section>
+      <div id="chrome-footer"></div>
+    </main>
+  </div>
+  <script src="/js/chrome.js" defer></script>
+  <script src="/js/pages.js" defer></script>
+  <script defer src="https://hits.jonbailey.xyz/c.js" data-site="humanbotty"></script>
+</body>
+</html>
