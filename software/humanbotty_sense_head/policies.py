@@ -14,6 +14,13 @@ def look_at_face(
     gain: float = 0.6,
 ) -> tuple[float, float]:
     """box is normalized [x, y, w, h] in image coords, origin top-left."""
+    # Corrupt joint_states can publish NaN/Inf pose. Looking from a non-finite
+    # pan/tilt yields NaN forever even when box and gain are valid (distinct
+    # from non-finite box/gain guards below).
+    if not math.isfinite(pan):
+        pan = 0.0
+    if not math.isfinite(tilt):
+        tilt = 0.0
     if not box_xywh:
         return pan, tilt
     # Bad ROS params / callers can pass NaN/Inf gain; that poisons pan/tilt
@@ -49,6 +56,12 @@ def look_at_sound(
     tilt: float,
     gain: float = 0.45,
 ) -> tuple[float, float]:
+    # Same joint-state glitch as look_at_face: non-finite current pose must not
+    # be used as the base for yaw*gain (distinct from non-finite yaw/gain).
+    if not math.isfinite(pan):
+        pan = 0.0
+    if not math.isfinite(tilt):
+        tilt = 0.0
     if yaw_rad is None or not math.isfinite(yaw_rad):
         return pan, tilt
     # Distinct from non-finite yaw: finite yaw with NaN/Inf gain still yields Inf/NaN pan.
@@ -63,6 +76,13 @@ def idle_saccade(
     rng: random.Random | None = None,
     max_step: float = 0.04,
 ) -> tuple[float, float]:
+    # Non-finite pose or max_step (bad param) would publish NaN idle desires.
+    if not math.isfinite(pan):
+        pan = 0.0
+    if not math.isfinite(tilt):
+        tilt = 0.0
+    if not math.isfinite(max_step) or max_step < 0:
+        return pan, tilt
     r = rng or random
     return pan + r.uniform(-max_step, max_step), tilt + r.uniform(-max_step * 0.5, max_step * 0.5)
 

@@ -56,6 +56,28 @@ class PolicyTests(unittest.TestCase):
         self.assertEqual(look_at_sound(0.4, 0.1, -0.2, gain=float("nan")), (0.1, -0.2))
         self.assertEqual(look_at_sound(0.4, 0.1, -0.2, gain=float("inf")), (0.1, -0.2))
 
+
+    def test_face_non_finite_pose_recovers(self):
+        # Joint-state NaN/Inf must not stick in the returned desire.
+        pan, tilt = look_at_face((0.4, 0.4, 0.2, 0.2), float("nan"), -0.2, gain=1.0)
+        self.assertTrue(math.isfinite(pan) and math.isfinite(tilt))
+        pan, tilt = look_at_face((0.4, 0.4, 0.2, 0.2), 0.1, float("inf"), gain=1.0)
+        self.assertTrue(math.isfinite(pan) and math.isfinite(tilt))
+
+    def test_sound_non_finite_pose_recovers(self):
+        pan, tilt = look_at_sound(0.4, float("nan"), -0.2, gain=0.5)
+        self.assertTrue(math.isfinite(pan) and math.isfinite(tilt))
+        self.assertAlmostEqual(pan, 0.2)  # pan recovered to 0 then + yaw*gain
+        self.assertAlmostEqual(tilt, -0.2)
+        pan, tilt = look_at_sound(0.4, 0.1, float("nan"), gain=0.5)
+        self.assertTrue(math.isfinite(pan) and math.isfinite(tilt))
+        self.assertAlmostEqual(tilt, 0.0)  # tilt recovered to 0
+
+    def test_idle_non_finite_max_step_holds(self):
+        self.assertEqual(idle_saccade(0.1, -0.2, rng=random.Random(0), max_step=float("nan")), (0.1, -0.2))
+        self.assertEqual(idle_saccade(0.1, -0.2, rng=random.Random(0), max_step=-0.01), (0.1, -0.2))
+
+
     def test_sound(self):
         pan, tilt = look_at_sound(0.4, 0.0, 0.1, gain=0.5)
         self.assertAlmostEqual(pan, 0.2)
