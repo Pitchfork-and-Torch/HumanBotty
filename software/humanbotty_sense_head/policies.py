@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import math
 import random
+from dataclasses import dataclass
 
 
 def look_at_face(
@@ -70,3 +71,76 @@ def blend(
             idle[1] * (1.0 - sound_weight) + sound[1] * sound_weight,
         )
     return idle
+
+
+@dataclass
+class LookMemory:
+    """Shared pose + last face/sound samples for the look arbiter."""
+
+    pan: float = 0.0
+    tilt: float = 0.0
+    face_box: tuple[float, float, float, float] | None = None
+    face_t: float = 0.0
+    sound_yaw: float | None = None
+    sound_t: float = 0.0
+
+
+FACE_TTL_SEC = 0.35
+SOUND_TTL_SEC = 0.50
+
+
+def remember_pose(mem: LookMemory, pan: float, tilt: float) -> None:
+    """Update current joints; ignore non-finite samples so NaN cannot stick."""
+    if math.isfinite(pan) and math.isfinite(tilt):
+        mem.pan = pan
+        mem.tilt = tilt
+
+
+def remember_face(
+    mem: LookMemory,
+    box: tuple[float, ...] | list[float],
+    now: float,
+) -> None:
+    """Store a face box sample. Short/garbage payloads are ignored."""
+    if box is None or len(box) < 4:
+        return
+    try:
+        sample = (float(box[0]), float(box[1]), float(box[2]), float(box[3]))
+    except (TypeError, ValueError):
+        return
+    if not all(math.isfinite(v) for v in sample):
+        return
+    mem.face_box = sample
+    mem.face_t = now
+
+
+def remember_sound(mem: LookMemory, yaw: float, now: float) -> None:
+    """Store a sound yaw sample; non-finite yaw is dropped."""
+    if yaw is None or not math.isfinite(yaw):
+        return
+    mem.sound_yaw = float(yaw)
+    mem.sound_t = now
+
+
+def tick_look(
+    mem: LookMemory,
+    now: float,
+    rng: random.Random | None = None,
+    face_gain: float = 0.6,
+    sound_gain: float = 0.45,
+    face_ttl: float = FACE_TTL_SEC,
+    sound_ttl: float = SOUND_TTL_SEC,
+) -> tuple[float, float]:
+    """Blend fresh face/sound with idle saccade; advance mem pose."""
+    face: tuple[float, float] | None = None
+    if mem.face_box is not None and (now - mem.face_t) <= face_ttl:
+        face = look_at_face(mem.face_box, mem.pan, mem.tilt, gain=face_gain)
+
+    sound: tuple[float, float] | None = None
+    if mem.sound_yaw is not None and (now - mem.sound_t) <= sound_ttl:
+        sound = look_at_sound(mem.sound_yaw, mem.pan, mem.tilt, gain=sound_gain)
+
+    idle = idle_saccade(mem.pan, mem.tilt, rng=rng)
+    pan, tilt = blend(face, sound, idle)
+    mem.pan, mem.tilt = pan, tilt
+    return pan, tilt

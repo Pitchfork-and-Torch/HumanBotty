@@ -4,7 +4,7 @@ package_name = "humanbotty_sense_head"
 
 setup(
     name=package_name,
-    version="1.1.0",
+    version="1.2.0",
     packages=find_packages(exclude=["test"]),
     data_files=[
         ("share/ament_index/resource_index/packages", ["resource/" + package_name]),
@@ -27,6 +27,7 @@ setup(
             "look_at_sound = humanbotty_sense_head.look_at_sound:main",
             "humanbotty_bridge = humanbotty_sense_head.bridge:main",
             "status_node = humanbotty_sense_head.status_node:main",
+            "look_arbiter = humanbotty_sense_head.look_arbiter:main",
         ],
     },
 )

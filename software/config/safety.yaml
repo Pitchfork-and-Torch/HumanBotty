@@ -7,4 +7,6 @@ safety_supervisor:
     vel_max: 0.8
     watchdog_sec: 0.4
     # Opt-in: allow publishing estop=false to clear a software latch.
+    allow_clear: false
+    # Alias kept for older supervisor param name.
     allow_clear_estop: false

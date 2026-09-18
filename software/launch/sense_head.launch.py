@@ -19,14 +19,8 @@ def generate_launch_description() -> LaunchDescription:
             ),
             Node(
                 package="humanbotty_sense_head",
-                executable="look_at_face",
-                name="look_at_face",
-                output="screen",
-            ),
-            Node(
-                package="humanbotty_sense_head",
-                executable="look_at_sound",
-                name="look_at_sound",
+                executable="look_arbiter",
+                name="look_arbiter",
                 output="screen",
             ),
             Node(
