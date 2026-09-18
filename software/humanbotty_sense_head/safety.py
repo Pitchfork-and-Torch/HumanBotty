@@ -91,9 +91,18 @@ def gated_command(
     limits: Limits,
     heartbeat_ok: bool,
 ) -> tuple[float, float, bool]:
-    """Return (pan, tilt, allowed). Zeroes pose when blocked."""
-    if not command_allowed(state, now, limits, heartbeat_ok):
+    """Return (pan, tilt, allowed). Holds last pose when blocked.
+
+    Soft-rearms a stale watchdog when the live tick runs again with e-stop
+    clear and heartbeat OK. Otherwise a hitch > watchdog_sec (or an e-stop
+    hold longer than the watchdog) permanently freezes the head even after
+    recovery, because last_ok_monotonic only advances on an allowed command.
+    """
+    if state.estop_latched or not heartbeat_ok:
         return state.last_pan, state.last_tilt, False
+    if not watchdog_ok(state, now, limits):
+        # Loop is alive again; re-arm so motion can resume.
+        state.last_ok_monotonic = now
     pan, tilt = clamp_pose(desired_pan, desired_tilt, limits)
     pan, tilt = rate_limit(pan, tilt, state, dt, limits)
     state.last_pan = pan

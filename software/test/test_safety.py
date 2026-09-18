@@ -44,5 +44,23 @@ class SafetyTests(unittest.TestCase):
         self.assertTrue(command_allowed(st, 10.05, Limits(), True))
 
 
+
+    def test_watchdog_soft_rearms_on_live_tick(self):
+        st = SupervisorState(last_ok_monotonic=0.0, last_pan=0.1, last_tilt=-0.05)
+        # Stale watchdog would block command_allowed forever without soft-rearm.
+        self.assertFalse(command_allowed(st, 1.0, Limits(watchdog_sec=0.4), True))
+        pan, tilt, ok = gated_command(0.2, 0.0, st, 1.0, 0.02, Limits(watchdog_sec=0.4), True)
+        self.assertTrue(ok)
+        self.assertAlmostEqual(st.last_ok_monotonic, 1.0)
+
+    def test_after_estop_clear_watchdog_does_not_stick(self):
+        st = SupervisorState(last_ok_monotonic=10.0, last_pan=0.0, last_tilt=0.0)
+        latch_estop(st, True)
+        clear_estop(st, True)
+        # E-stop held > watchdog_sec; clear alone must not leave motion frozen.
+        pan, tilt, ok = gated_command(0.0, 0.0, st, 11.0, 0.02, Limits(watchdog_sec=0.4), True)
+        self.assertTrue(ok)
+        self.assertFalse(st.estop_latched)
+
 if __name__ == "__main__":
     unittest.main()
