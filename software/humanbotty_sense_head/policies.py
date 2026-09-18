@@ -30,6 +30,10 @@ def look_at_face(
         return pan, tilt
     cx = x + w * 0.5
     cy = y + h * 0.5
+    # Partial clips can still place the geometric center outside the unit
+    # square (e.g. x=-0.05,w=0.08 → cx=-0.01). Distinct from wholly-OOB.
+    if not (0.0 <= cx <= 1.0 and 0.0 <= cy <= 1.0):
+        return pan, tilt
     err_x = cx - 0.5
     err_y = 0.5 - cy
     return pan + (-err_x * gain), tilt + (err_y * gain)
