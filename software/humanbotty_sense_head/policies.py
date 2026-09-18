@@ -19,6 +19,10 @@ def look_at_face(
     # Non-finite boxes (detector glitch) must not poison pan/tilt with NaN.
     if not all(math.isfinite(v) for v in (x, y, w, h)):
         return pan, tilt
+    # Empty or inverted boxes are detector failures, not faces — a zero-area
+    # box still yields a "center" that yanks the head toward noise.
+    if w <= 0 or h <= 0:
+        return pan, tilt
     cx = x + w * 0.5
     cy = y + h * 0.5
     err_x = cx - 0.5
