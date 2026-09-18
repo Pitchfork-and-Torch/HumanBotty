@@ -75,7 +75,12 @@ def rate_limit(
     dt: float,
     limits: Limits,
 ) -> tuple[float, float]:
-    if dt <= 0:
+    # NaN/Inf slip past `dt <= 0` (NaN comparisons are false), so max_step
+    # becomes non-finite and clamp() lets the full desire through  -  a one-tick
+    # jump past vel_max. Distinct from gated_command's non-finite desire hold.
+    if not math.isfinite(dt) or dt <= 0:
+        return state.last_pan, state.last_tilt
+    if not math.isfinite(limits.vel_max) or limits.vel_max < 0:
         return state.last_pan, state.last_tilt
     max_step = limits.vel_max * dt
     dpan = clamp(pan - state.last_pan, -max_step, max_step)

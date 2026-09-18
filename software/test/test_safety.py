@@ -73,5 +73,19 @@ class SafetyTests(unittest.TestCase):
         self.assertAlmostEqual(st.last_pan, pan)
         self.assertFalse(math.isnan(st.last_pan))
 
+    def test_non_finite_dt_holds_rate(self):
+        """NaN/Inf dt must not bypass vel_max (would jump full desire in one tick)."""
+        st = SupervisorState(last_ok_monotonic=1.0, last_pan=0.0, last_tilt=0.0)
+        pan, tilt, ok = gated_command(1.0, 0.5, st, 1.05, float("nan"), Limits(vel_max=0.8), True)
+        self.assertTrue(ok)
+        self.assertAlmostEqual(pan, 0.0)
+        self.assertAlmostEqual(tilt, 0.0)
+        st2 = SupervisorState(last_ok_monotonic=1.0, last_pan=0.0, last_tilt=0.0)
+        pan, tilt, ok = gated_command(1.0, 0.5, st2, 1.05, float("inf"), Limits(vel_max=0.8), True)
+        self.assertTrue(ok)
+        self.assertAlmostEqual(pan, 0.0)
+        self.assertAlmostEqual(tilt, 0.0)
+
+
 if __name__ == "__main__":
     unittest.main()
