@@ -27,6 +27,13 @@ class PolicyTests(unittest.TestCase):
         self.assertEqual(look_at_face((0.4, 0.4, 0.0, 0.2), 0.1, -0.2), (0.1, -0.2))
         self.assertEqual(look_at_face((0.4, 0.4, 0.2, -0.1), 0.1, -0.2), (0.1, -0.2))
 
+    def test_face_out_of_frame_holds(self):
+        # Wholly right of / below / left of / above the normalized image.
+        self.assertEqual(look_at_face((1.2, 0.4, 0.2, 0.2), 0.1, -0.2), (0.1, -0.2))
+        self.assertEqual(look_at_face((0.4, 1.1, 0.2, 0.2), 0.1, -0.2), (0.1, -0.2))
+        self.assertEqual(look_at_face((-0.5, 0.4, 0.2, 0.2), 0.1, -0.2), (0.1, -0.2))
+        self.assertEqual(look_at_face((0.4, -0.4, 0.2, 0.2), 0.1, -0.2), (0.1, -0.2))
+
     def test_sound(self):
         pan, tilt = look_at_sound(0.4, 0.0, 0.1, gain=0.5)
         self.assertAlmostEqual(pan, 0.2)

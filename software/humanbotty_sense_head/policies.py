@@ -23,6 +23,10 @@ def look_at_face(
     # box still yields a "center" that yanks the head toward noise.
     if w <= 0 or h <= 0:
         return pan, tilt
+    # Boxes wholly outside the normalized frame still have positive w/h but
+    # their "center" yanks the head toward detector garbage off-image.
+    if x >= 1.0 or y >= 1.0 or (x + w) <= 0.0 or (y + h) <= 0.0:
+        return pan, tilt
     cx = x + w * 0.5
     cy = y + h * 0.5
     err_x = cx - 0.5
