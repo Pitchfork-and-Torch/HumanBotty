@@ -1,0 +1,198 @@
+{
+  "tier": "strong",
+  "currency": "USD",
+  "approx_total_min": 1100,
+  "approx_total_max": 1800,
+  "status": "published",
+  "approved_date": "2026-07-25",
+  "procurement_order": [
+    "compute",
+    "vision",
+    "audio_imu",
+    "motion",
+    "power_safety",
+    "structure"
+  ],
+  "items": [
+    {
+      "id": "jetson",
+      "category": "compute",
+      "name": "NVIDIA Jetson Orin Nano Super (8GB) or Orin Nano 8GB",
+      "qty": 1,
+      "approx_low": 200,
+      "approx_high": 500,
+      "status": "to_order",
+      "notes": "Prefer Super. Raspberry Pi 5 8GB is the documented fallback if Jetson is unavailable."
+    },
+    {
+      "id": "nvme",
+      "category": "compute",
+      "name": "NVMe SSD 256-512 GB",
+      "qty": 1,
+      "approx_low": 25,
+      "approx_high": 50,
+      "status": "to_order",
+      "notes": "Rootfs and datasets"
+    },
+    {
+      "id": "cooling",
+      "category": "compute",
+      "name": "Active cooling / official fan for Jetson",
+      "qty": 1,
+      "approx_low": 15,
+      "approx_high": 40,
+      "status": "to_order",
+      "notes": "Thermal is not optional"
+    },
+    {
+      "id": "depth-cam",
+      "category": "vision",
+      "name": "Depth camera (RealSense D435/D455 or Orbbec USB class)",
+      "qty": 1,
+      "approx_low": 150,
+      "approx_high": 350,
+      "status": "to_order",
+      "notes": "Depth simplifies later grasping"
+    },
+    {
+      "id": "usb-cables",
+      "category": "vision",
+      "name": "Short USB cables + strain relief",
+      "qty": 3,
+      "approx_low": 15,
+      "approx_high": 25,
+      "status": "to_order",
+      "notes": ""
+    },
+    {
+      "id": "mic-array",
+      "category": "audio_imu",
+      "name": "USB mic array (ReSpeaker-class or conference mic)",
+      "qty": 1,
+      "approx_low": 30,
+      "approx_high": 90,
+      "status": "to_order",
+      "notes": ""
+    },
+    {
+      "id": "speaker",
+      "category": "audio_imu",
+      "name": "Small speaker + USB or amp",
+      "qty": 1,
+      "approx_low": 15,
+      "approx_high": 40,
+      "status": "to_order",
+      "notes": ""
+    },
+    {
+      "id": "imu",
+      "category": "audio_imu",
+      "name": "9-DoF IMU (BNO085 / ICM-class)",
+      "qty": 1,
+      "approx_low": 15,
+      "approx_high": 35,
+      "status": "to_order",
+      "notes": "Rigid mount to the head"
+    },
+    {
+      "id": "servos",
+      "category": "motion",
+      "name": "Bus servos pan+tilt (Feetech STS3215 or Dynamixel XL/XM)",
+      "qty": 2,
+      "approx_low": 40,
+      "approx_high": 150,
+      "status": "to_order",
+      "notes": "Daisy-chain + feedback preferred"
+    },
+    {
+      "id": "servo-ctrl",
+      "category": "motion",
+      "name": "Bus servo controller / USB adapter",
+      "qty": 1,
+      "approx_low": 20,
+      "approx_high": 50,
+      "status": "to_order",
+      "notes": "Match the servo brand"
+    },
+    {
+      "id": "psu-12v",
+      "category": "power_safety",
+      "name": "12V 5-10A brick (servo rail)",
+      "qty": 1,
+      "approx_low": 20,
+      "approx_high": 40,
+      "status": "to_order",
+      "notes": ""
+    },
+    {
+      "id": "psu-5v",
+      "category": "power_safety",
+      "name": "5V 5A+ logic supply (if needed)",
+      "qty": 1,
+      "approx_low": 15,
+      "approx_high": 25,
+      "status": "to_order",
+      "notes": "Avoid brown-out"
+    },
+    {
+      "id": "estop",
+      "category": "power_safety",
+      "name": "E-stop mushroom (NC) + relay/eFuse for servo rail",
+      "qty": 1,
+      "approx_low": 20,
+      "approx_high": 45,
+      "status": "to_order",
+      "notes": "Cuts actuator power, not software-only"
+    },
+    {
+      "id": "wire-kit",
+      "category": "power_safety",
+      "name": "XT60/XT30, ferrules, silicone wire kit",
+      "qty": 1,
+      "approx_low": 20,
+      "approx_high": 40,
+      "status": "to_order",
+      "notes": ""
+    },
+    {
+      "id": "multimeter",
+      "category": "power_safety",
+      "name": "Multimeter",
+      "qty": 1,
+      "approx_low": 20,
+      "approx_high": 60,
+      "status": "optional",
+      "notes": "Skip if you already own one"
+    },
+    {
+      "id": "petg",
+      "category": "structure",
+      "name": "PETG filament 1-2 kg",
+      "qty": 1,
+      "approx_low": 20,
+      "approx_high": 40,
+      "status": "to_order",
+      "notes": "Primary structural plastic"
+    },
+    {
+      "id": "tpu",
+      "category": "structure",
+      "name": "TPU 95A partial spool",
+      "qty": 1,
+      "approx_low": 20,
+      "approx_high": 30,
+      "status": "to_order",
+      "notes": "Glands, dampers"
+    },
+    {
+      "id": "fasteners",
+      "category": "structure",
+      "name": "M2/M3 screws + heat-set inserts",
+      "qty": 1,
+      "approx_low": 15,
+      "approx_high": 30,
+      "status": "to_order",
+      "notes": ""
+    }
+  ]
+}
