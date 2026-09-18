@@ -86,6 +86,20 @@ class SafetyTests(unittest.TestCase):
         self.assertAlmostEqual(pan, 0.0)
         self.assertAlmostEqual(tilt, 0.0)
 
+    def test_bad_watchdog_sec_holds(self):
+        """NaN/Inf/non-positive watchdog_sec must fail closed (no soft-rearm bypass)."""
+        for bad in (float("nan"), float("inf"), 0.0, -0.1):
+            st = SupervisorState(last_ok_monotonic=1.0, last_pan=0.2, last_tilt=-0.1)
+            pan, tilt, ok = gated_command(
+                1.0, 0.5, st, 1.05, 0.05, Limits(watchdog_sec=bad), True
+            )
+            self.assertFalse(ok, msg=f"allowed for watchdog_sec={bad!r}")
+            self.assertAlmostEqual(pan, 0.2)
+            self.assertAlmostEqual(tilt, -0.1)
+            self.assertAlmostEqual(st.last_ok_monotonic, 1.0)
+            self.assertFalse(command_allowed(st, 1.05, Limits(watchdog_sec=bad), True))
+
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -43,6 +43,12 @@ def clear_estop(state: SupervisorState, allow_clear: bool) -> SupervisorState:
 
 
 def watchdog_ok(state: SupervisorState, now: float, limits: Limits) -> bool:
+    # Non-finite / non-positive watchdog_sec must fail closed. NaN comparisons are
+    # always false, so a bad timeout looked "stale" every tick and gated_command's
+    # soft-rearm path re-armed forever  -  disabling the watchdog. Distinct from
+    # soft-rearm-after-stall (#3) and non-finite desire/dt holds.
+    if not math.isfinite(limits.watchdog_sec) or limits.watchdog_sec <= 0:
+        return False
     return (now - state.last_ok_monotonic) <= limits.watchdog_sec
 
 
@@ -105,6 +111,10 @@ def gated_command(
     recovery, because last_ok_monotonic only advances on an allowed command.
     """
     if state.estop_latched or not heartbeat_ok:
+        return state.last_pan, state.last_tilt, False
+    # Misconfigured watchdog (NaN/Inf/<=0): hold pose, do not soft-rearm.
+    # Soft-rearm on a permanently-false watchdog_ok would disable the gate.
+    if not math.isfinite(limits.watchdog_sec) or limits.watchdog_sec <= 0:
         return state.last_pan, state.last_tilt, False
     if not watchdog_ok(state, now, limits):
         # Loop is alive again; re-arm so motion can resume.
