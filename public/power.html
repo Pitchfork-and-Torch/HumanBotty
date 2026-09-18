@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#0b1018" />
+  <meta name="robots" content="index,follow" />
+  <meta name="author" content="Pitchfork-and-Torch" />
+  <meta name="description" content="HumanBotty Phase 1 power: dual rails, hardware e-stop, star ground, common failure modes." />
+  <title>Power and wiring - HumanBotty</title>
+  <link rel="canonical" href="https://humanbotty.jonbailey.xyz/power.html" />
+  <link rel="alternate" type="text/plain" href="/llms.txt" />
+  <link rel="icon" href="/favicon.png" type="image/png" />
+  <link rel="icon" type="image/png" href="/icon-192.png" />
+  <link rel="apple-touch-icon" href="/icon-512.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="HumanBotty" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:url" content="https://humanbotty.jonbailey.xyz/power.html" />
+  <meta property="og:title" content="Power and wiring - HumanBotty" />
+  <meta property="og:description" content="HumanBotty Phase 1 power: dual rails, hardware e-stop, star ground, common failure modes." />
+  <meta property="og:image" content="https://humanbotty.jonbailey.xyz/og.jpg?v=1.1.0" />
+  <meta property="og:image:secure_url" content="https://humanbotty.jonbailey.xyz/og.jpg?v=1.1.0" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="HumanBotty: a maker-built robot sense-head on a workbench. A body for your AI." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@suddenlyjon" />
+  <meta name="twitter:creator" content="@suddenlyjon" />
+  <meta name="twitter:title" content="Power and wiring - HumanBotty" />
+  <meta name="twitter:description" content="HumanBotty Phase 1 power: dual rails, hardware e-stop, star ground, common failure modes." />
+  <meta name="twitter:image" content="https://humanbotty.jonbailey.xyz/og.jpg?v=1.1.0" />
+  <meta name="twitter:image:alt" content="HumanBotty sense-head on a workbench." />
+  <link rel="stylesheet" href="/fonts/fontshare/fonts.css" />
+  <link rel="stylesheet" href="/fonts/fontshare/tokens.css" />
+  <link rel="stylesheet" href="/css/site.css" />
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "HumanBotty",
+      "url": "https://humanbotty.jonbailey.xyz/power.html",
+      "description": "HumanBotty Phase 1 power: dual rails, hardware e-stop, star ground, common failure modes.",
+      "inLanguage": "en",
+      "isAccessibleForFree": true,
+      "image": "https://humanbotty.jonbailey.xyz/og.jpg?v=1.1.0",
+      "author": { "@type": "Person", "name": "Jon Bailey", "url": "https://jonbailey.xyz/" },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Pitchfork-and-Torch",
+        "url": "https://github.com/Pitchfork-and-Torch"
+      }
+    }
+  </script>
+
+</head>
+<body data-page="power">
+  <a class="skip" href="#main">Skip to content</a>
+  <div id="chrome-header"></div>
+  <div class="shell">
+    <nav class="side-nav" id="chrome-nav"></nav>
+    <main class="main" id="main">
+      <header class="page-header">
+        <p class="kicker">PHASE 1</p>
+        <h1>Power and wiring</h1>
+        <p class="lede">Sense Head. Two rails. E-stop kills actuators. Common ground by design.</p>
+      </header>
+      <pre class="diagram">                    WALL AC
+                       |
+              +--------+--------+
+              |                 |
+         [12V brick]       [USB-C / PD
+              |             for Jetson/Pi]
+              |                 |
+              v                 v
+         SERVO_RAIL          LOGIC_RAIL
+              |                 |
+         [eFuse/fuse]      [Jetson / Pi]
+              |                 |
+         [E-STOP NC]--+    USB hub / cams
+              |       |    IMU · mic · speaker
+              v       |
+         [servo bus]  |
+         pan + tilt   |
+                      |
+              (LED "ACTUATORS ARMED")
+
+   GND_LOGIC ----+---- GND_SERVO   (star point)</pre>
+      <section class="prose">
+        <h2>Principles</h2>
+        <ol>
+          <li>Logic and actuator rails stay separate.</li>
+          <li>E-stop cuts servo power or enable. Not software-only.</li>
+          <li>Star ground near supplies.</li>
+          <li>Size the 12V supply for servo motion spikes.</li>
+        </ol>
+        <h2>Common failures</h2>
+      </section>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Symptom</th><th>Cause</th><th>Fix</th></tr></thead>
+          <tbody>
+            <tr><td>Reboots when servos move</td><td>Brown-out</td><td>Separate rails; bigger servo PSU</td></tr>
+            <tr><td>Servo jitter</td><td>Bad ground / noise</td><td>Star ground; bulk cap on servo rail</td></tr>
+            <tr><td>E-stop "works" but motion continues</td><td>Software-only stop</td><td>Rewire the cut path</td></tr>
+            <tr><td>Camera dropouts</td><td>USB power/cable</td><td>Powered hub; shorter cable</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="chrome-footer"></div>
+    </main>
+  </div>
+  <script src="/js/chrome.js" defer></script>
+  <script src="/js/pages.js" defer></script>
+  <script defer src="https://hits.jonbailey.xyz/c.js" data-site="humanbotty"></script>
+</body>
+</html>
