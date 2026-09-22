@@ -70,8 +70,8 @@ def head(title: str, description: str, path: str, extra: str = "") -> str:
   <link rel="alternate" type="text/plain" href="/llms.txt" />
   <link rel="icon" href="/favicon.png" type="image/png" />
   <link rel="icon" type="image/png" href="/icon-192.png" />
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=1.2.0" sizes="180x180" />
-  <link rel="apple-touch-icon" href="/icon-512.png?v=1.2.0" sizes="512x512" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v={VERSION}" sizes="180x180" />
+  <link rel="apple-touch-icon" href="/icon-512.png?v={VERSION}" sizes="512x512" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="HumanBotty" />
   <meta property="og:locale" content="en_US" />
