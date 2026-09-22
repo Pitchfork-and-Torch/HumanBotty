@@ -1,0 +1,41 @@
+# HumanBotty
+
+> Public maker guide for building a physical body for an AI you already talk to.
+
+- Site: https://humanbotty.jonbailey.xyz/
+- Version: 1.2.0
+- Maker: Jon Bailey / Pitchfork-and-Torch
+- License: MIT
+- Not an xAI product
+- Not AetherOS (https://aetheros.jonbailey.xyz/ is a research kernel)
+- Not AXIOM (https://axiom.jonbailey.xyz/ is clothing for Optimus)
+
+## One-liner
+
+Sense-first hybrid: humanoid head and arms on a practical wheeled base. Start with a Sense Head. Full biped is optional and late.
+
+## Quick answers
+
+- Phase 1 Strong BOM is about $1,100 to $1,800 USD at mid-2026 maker prices. Verify before buying.
+- First physical module: vision, audio, IMU, pan-tilt, hardware e-stop, ROS 2, local agent bridge.
+- Sense Head code (MIT): https://github.com/Pitchfork-and-Torch/HumanBotty/tree/main/software
+- Default look node is look_arbiter (one publisher of /humanbotty/head/joint_desired). Face box > sound yaw > idle. Boxes only. No cloud face database.
+- Software e-stop latches. allow_clear defaults false. Only safety_supervisor publishes /humanbotty/head/joint_command.
+- Safety: e-stop cuts actuator power. No unsupervised motion near people or pets. No weapons. Privacy mute for mic and camera.
+- Compute: Jetson-class on the robot. Raspberry Pi 5 8GB is the documented fallback.
+
+## Pages
+
+- / start
+- /start.html order of operations
+- /body.html morphology
+- /safety.html doctrine
+- /phase1.html Sense Head
+- /bom.html parts list
+- /power.html dual-rail wiring
+- /software.html ROS 2 stack
+- /roadmap.html phases 0-5
+- /learning.html just-in-time skills
+- /log.html public recipe history
+
+EN-only while i18n is paused.

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#0b1018" />
+  <meta name="robots" content="index,follow" />
+  <meta name="author" content="Pitchfork-and-Torch" />
+  <meta name="description" content="HumanBotty software: open-source ROS 2 Sense Head package. Local safety supervisor, look-at policies, optional desktop agent bridge." />
+  <title>Software stack - HumanBotty</title>
+  <link rel="canonical" href="https://humanbotty.jonbailey.xyz/software.html" />
+  <link rel="alternate" type="text/plain" href="/llms.txt" />
+  <link rel="icon" href="/favicon.png" type="image/png" />
+  <link rel="icon" type="image/png" href="/icon-192.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=1.2.0" sizes="180x180" />
+  <link rel="apple-touch-icon" href="/icon-512.png?v=1.2.0" sizes="512x512" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="HumanBotty" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:url" content="https://humanbotty.jonbailey.xyz/software.html" />
+  <meta property="og:title" content="Software stack - HumanBotty" />
+  <meta property="og:description" content="HumanBotty software: open-source ROS 2 Sense Head package. Local safety supervisor, look-at policies, optional desktop agent bridge." />
+  <meta property="og:image" content="https://humanbotty.jonbailey.xyz/og.jpg?v=1.2.0" />
+  <meta property="og:image:secure_url" content="https://humanbotty.jonbailey.xyz/og.jpg?v=1.2.0" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="HumanBotty: a maker-built robot sense-head on a workbench. A body for your AI." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@suddenlyjon" />
+  <meta name="twitter:creator" content="@suddenlyjon" />
+  <meta name="twitter:title" content="Software stack - HumanBotty" />
+  <meta name="twitter:description" content="HumanBotty software: open-source ROS 2 Sense Head package. Local safety supervisor, look-at policies, optional desktop agent bridge." />
+  <meta name="twitter:image" content="https://humanbotty.jonbailey.xyz/og.jpg?v=1.2.0" />
+  <meta name="twitter:image:alt" content="HumanBotty sense-head on a workbench." />
+  <link rel="stylesheet" href="/fonts/fontshare/fonts.css" />
+  <link rel="stylesheet" href="/fonts/fontshare/tokens.css" />
+  <link rel="stylesheet" href="/css/site.css" />
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "HumanBotty",
+      "url": "https://humanbotty.jonbailey.xyz/software.html",
+      "description": "HumanBotty software: open-source ROS 2 Sense Head package. Local safety supervisor, look-at policies, optional desktop agent bridge.",
+      "inLanguage": "en",
+      "isAccessibleForFree": true,
+      "image": "https://humanbotty.jonbailey.xyz/og.jpg?v=1.2.0",
+      "author": { "@type": "Person", "name": "Jon Bailey", "url": "https://jonbailey.xyz/" },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Pitchfork-and-Torch",
+        "url": "https://github.com/Pitchfork-and-Torch"
+      }
+    }
+  </script>
+
+</head>
+<body data-page="software">
+  <a class="skip" href="#main">Skip to content</a>
+  <div id="chrome-header"></div>
+  <div class="shell">
+    <nav class="side-nav" id="chrome-nav"></nav>
+    <main class="main" id="main">
+      <header class="page-header">
+        <p class="kicker">PHASE 1</p>
+        <h1>Software stack</h1>
+        <p class="lede">Local, low-latency, killable. High-level conversation may hybridize. Motor authority stays local under a safety supervisor. The Sense Head nodes are MIT and public.</p>
+        <div class="meta-row">
+          <span class="chip live">MIT</span>
+          <span class="chip active">ROS 2</span>
+        </div>
+      </header>
+      <div class="callout">
+        <strong>Source:</strong>
+        <a href="https://github.com/Pitchfork-and-Torch/HumanBotty">github.com/Pitchfork-and-Torch/HumanBotty</a>
+        · package
+        <a href="https://github.com/Pitchfork-and-Torch/HumanBotty/tree/main/software"><code>software/</code></a>
+      </div>
+      <div class="cta-row" style="margin:0 0 1.5rem">
+        <a class="btn" href="https://github.com/Pitchfork-and-Torch/HumanBotty/tree/main/software">Open the Sense Head code</a>
+        <a class="btn btn-ghost" href="https://github.com/Pitchfork-and-Torch/HumanBotty">Source</a>
+      </div>
+      <section class="prose">
+        <h2>Clone</h2>
+        <pre class="diagram">git clone https://github.com/Pitchfork-and-Torch/HumanBotty.git
+cd HumanBotty/software
+# tests (no ROS required):
+python -m unittest discover -s test -v
+# on a robot with ROS 2 Humble or Jazzy:
+# colcon build --packages-select humanbotty_sense_head
+# ros2 launch humanbotty_sense_head sense_head.launch.py</pre>
+        <h2>On-robot</h2>
+        <ul>
+          <li>Ubuntu (Jetson BSP) or Ubuntu / Pi OS</li>
+          <li><strong>ROS 2</strong> Humble or Jazzy (pick one, stick)</li>
+          <li>Python 3 nodes; brand SDKs for camera and servos</li>
+          <li><code>safety_supervisor</code> always on the motor path</li>
+        </ul>
+        <h2>Topic contract v0</h2>
+        <pre class="diagram">/humanbotty/camera/color/image_raw
+/humanbotty/camera/depth/image_raw
+/humanbotty/imu/data
+/humanbotty/audio/vad
+/humanbotty/head/joint_states
+/humanbotty/head/joint_command
+/humanbotty/safety/estop
+/humanbotty/status</pre>
+        <h2>Intelligence bridge</h2>
+        <pre class="diagram">ROS 2 topics
+  -> humanbotty_bridge
+      -> local policies (look-at-face, look-at-sound)
+      -> optional LAN link to a desktop agent session
+      -> NEVER bypass safety_supervisor</pre>
+        <h2>Phase 1 local policies (proudly simple)</h2>
+        <ol>
+          <li>Face detect, pan-tilt toward centroid</li>
+          <li>Loud sound, orient</li>
+          <li>Idle micro-saccades (limited)</li>
+          <li>Voice I/O via your agent stack when ready</li>
+        </ol>
+      </section>
+      <div id="chrome-footer"></div>
+    </main>
+  </div>
+  <script src="/js/chrome.js" defer></script>
+  <script src="/js/pages.js" defer></script>
+  <script defer src="https://hits.jonbailey.xyz/c.js" data-site="humanbotty"></script>
+</body>
+</html>
