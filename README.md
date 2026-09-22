@@ -4,7 +4,7 @@
 
 [![Live](https://img.shields.io/badge/live-humanbotty.jonbailey.xyz-111111)](https://humanbotty.jonbailey.xyz/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.1.0-informational)](VERSION)
+[![Version](https://img.shields.io/badge/version-1.2.0-informational)](VERSION)
 [![ROS 2](https://img.shields.io/badge/ROS%202-Humble%20%2F%20Jazzy-22314E)](software/)
 
 Sense-first hybrid: a humanoid head and arms on a practical wheeled base. Phase 1 is a **Sense Head** (vision, audio, IMU, pan-tilt, hardware e-stop). Full biped is optional and late.
@@ -46,7 +46,7 @@ ros2 launch humanbotty_sense_head sense_head.launch.py
 
 ## Site
 
-Static files live in `public/`. Advertised version is `1.1.0` (`VERSION`). After copy edits:
+Static files live in `public/`. Advertised version is `1.2.0` (`VERSION`). After copy edits:
 
 ```powershell
 py -3 scripts/emit_pages.py

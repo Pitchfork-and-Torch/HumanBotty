@@ -70,7 +70,7 @@ def head(title: str, description: str, path: str, extra: str = "") -> str:
   <link rel="alternate" type="text/plain" href="/llms.txt" />
   <link rel="icon" href="/favicon.png" type="image/png" />
   <link rel="icon" type="image/png" href="/icon-192.png" />
-  <link rel="apple-touch-icon" href="/icon-512.png" />
+  <link rel="apple-touch-icon" href="/icon-512.png" sizes="512x512" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="HumanBotty" />
   <meta property="og:locale" content="en_US" />
@@ -187,6 +187,7 @@ PAGES["index.html"] = wrap(
         <a href="https://github.com/Pitchfork-and-Torch/HumanBotty/tree/main/software">Pitchfork-and-Torch/HumanBotty</a>
         under <code>software/</code>
         (<a href="/software.html">stack notes</a>).
+        Default launch: one look publisher (<code>look_arbiter</code>).
       </div>
 
       <section class="prose">
